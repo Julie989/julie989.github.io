@@ -4,10 +4,37 @@ const url = "https://bynxrcltjanjczfelhpp.supabase.co";
 const database = supabase.createClient(url, key);
 const tableName = "realtimedatabase1";
 
-document.addEventListener("mousemove", async (e) => {
-  let values = { x: e.clientX, y: e.clientY };
-  updateSupabase(1, values);
+
+//document.addEventListener("mousemove", async (e) => {
+//  let values = { x: e.clientX, y: e.clientY };
+//  updateSupabase(1, values);
+//});
+
+
+let currentSpeedOutput = document.getElementById("current-speed-value"); 
+let currentSpeedValue = 0; 
+
+document.querySelectorAll("button").forEach(button => {
+  button.addEventListener("click", function() {
+    let selectedSpeed = this.value; 
+
+    if (currentSpeedValue == selectedSpeed) {
+      console.log(`Speed ${selectedSpeed} is already set. Button remains disabled.`);
+      return; // Exit early if the speed is already set
+    }
+    document.querySelectorAll("button").forEach(btn => btn.disabled = false);
+    currentSpeedValue = selectedSpeed;
+    currentSpeedOutput.innerHTML = currentSpeedValue;
+    console.log("Speed set to:", currentSpeedValue);
+    // Disable the clicked button
+    this.disabled = true;
+
+    let values = { x: currentSpeedValue, y: 0 };
+    updateSupabase(1, values);
+  });
 });
+
+
 
 async function updateSupabase(id, values) {
   let res = await database

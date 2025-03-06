@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // Get the cardinal direction
           const cardinalDirection = getCardinalDirection(alpha);
           compassData.innerHTML = `Magnetic Heading: ${alpha.toFixed(2)}° ${cardinalDirection}`;
-          updateSupabase(1, values);
+          
       }
   }
 
@@ -49,3 +49,4 @@ document.addEventListener('DOMContentLoaded', function() {
       compassData.innerHTML = "Your device does not support device orientation.";
   }
 });
+
