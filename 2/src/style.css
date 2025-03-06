@@ -1,47 +1,54 @@
-/* Default stylesheet and tools */
 body,
 html {
-	background: rgb(245, 245, 245);
-	padding: 0;
-	margin: 0;
-	font-size: 11px;
-	height: 100vh;
-	width: 100vw;
-	transition: all 0.5s ease;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  padding: 5px;
+  background-color: #f0f0f0;
+}
+#drawingArea {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  position: relative;
+}
+.touchPoint {
+  width: 100px;
+  height: 100px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
-#main {
-	padding: 5px
+.main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: black;
+  color: white;
+  padding: 5px 10px;
 }
 
-#container {
-	position: relative;
-}
-
-@media (max-width:960px) { 
-}
-
-#dot{
-	width: 30px;
-	height: 30px;
-	background-color: black;
-	border-radius: 50%;
-	position:fixed;
-	left: -100px;
-	top: -100px;
-}
-
-
-#accelPermsButton {
-	position: fixed;
-	top: 10px;
-	right: 10px;
-}
-
-audio {
-	position: fixed;
-	bottom: 50%;
+#rect {
+	background: black;
+	position: absolute;
+	top: 30%;
 	left: 50%;
-	width: 100%;
-	transform: translate(-50%, 50%);
+	transform-origin: 0% 0%;
+	transform: translate(-50%, -50%);
+	width: 50px;
+	height: 100px;
+	transition: all 0.2s;
 }

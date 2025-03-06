@@ -1,74 +1,133 @@
-//dom elements
-const contentX = document.getElementById("x");
-const contentY = document.getElementById("y");
-const contentTime = document.getElementById("time");
-const contentId = document.getElementById("id");
-const contentAlpha = document.getElementById("alpha");
-const contentBeta = document.getElementById("beta");
-const contentGamma = document.getElementById("gamma");
-const button = document.getElementById("accelPermsButton");
-const value = document.getElementById("value");
-const audio = document.getElementById("audio");
+const key =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpdHR0eGx0aXBmZm1lcGJ1dHNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1MzcyMjIsImV4cCI6MjA1NTExMzIyMn0.y7sdk3EWA49uTOO2b56rV-O4xKuYaE64JjCiB2HXxng";
+const url = "https://witttxltipffmepbutsg.supabase.co";
+const database = supabase.createClient(url, key);
+const tableName = "realtimedatabase6";
 
-let px = 50; // Position x and y
-let py = 50;
-let vx = 0.0; // Velocity x and y
-let vy = 0.0;
 
-let updateRate = 1 / 60; // Sensor refresh rate
+const drawingArea = document.getElementById("drawingArea");
+const distanceOutput = document.getElementById("distanceOutput");
+const rotationOutput = document.getElementById("rotationOutput");
+const lineSvg = document.getElementById("lineSvg");
 
-button.addEventListener("click", () => {
-  getAccel();
-});
+const id = 1;
+const activeTouches = {};
+let line = null;
 
-async function getAccel() {
-  DeviceMotionEvent.requestPermission().then((response) => {
-    if (response == "granted") {
-      //play audio
-      audio.play();
 
-      // Add a listener to get smartphone orientation
-      // in the alpha-beta-gamma axes (units in degrees)
-      window.addEventListener("deviceorientation", (event) => {
-        // Expose each orientation angle in a more readable way
-        rotation_degrees = event.alpha;
-        frontToBack_degrees = event.beta;
-        leftToRight_degrees = event.gamma;
 
-        // Update velocity according to how tilted the phone is
-        // Since phones are narrower than they are long, double the increase to the x velocity
-        vx = vx + leftToRight_degrees * updateRate * 2;
-        vy = vy + frontToBack_degrees * updateRate;
-
-        // Update position and clip it to bounds
-        px = px + vx * 0.5;
-        if (px > 92 || px < 0) {
-          px = Math.max(0, Math.min(92, px)); // Clip px between 0-95
-          vx = 0;
-        }
-
-        py = py + vy * 0.5;
-        if (py > 95 || py < 0) {
-          py = Math.max(0, Math.min(95, py)); // Clip py between 0-95
-          vy = 0;
-        }
-
-        dot = document.getElementById("dot");
-        dot.setAttribute("style", "left:" + px + "%;" + "top:" + py + "%;");
-
-        contentX.innerHTML = px;
-        contentY.innerHTML = py;
-        contentAlpha.innerHTML = rotation_degrees;
-        contentBeta.innerHTML = frontToBack_degrees;
-        contentGamma.innerHTML = leftToRight_degrees;
-        value.innerHTML = `${py} > ${window.innerHeight / 2}`
-        //if dots grater than 50% of y axis, play audio
-        if (py > 47) {
-          audio.pause();
-        } else {
-          audio.play(); 
-        }
-      });
+function updateLine() {
+  const touchPoints = Object.values(activeTouches);
+  if (touchPoints.length === 2) {
+    if (!line) {
+      line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("stroke", "black");
+      line.setAttribute("stroke-width", "2");
+      lineSvg.appendChild(line);
     }
-  });
+    line.setAttribute("x1", touchPoints[0].style.left.replace("px", ""));
+    line.setAttribute("y1", touchPoints[0].style.top.replace("px", ""));
+    line.setAttribute("x2", touchPoints[1].style.left.replace("px", ""));
+    line.setAttribute("y2", touchPoints[1].style.top.replace("px", ""));
+
+    const xDiff =
+      touchPoints[0].style.left.replace("px", "") -
+      touchPoints[1].style.left.replace("px", "");
+    const yDiff =
+      touchPoints[0].style.top.replace("px", "") -
+      touchPoints[1].style.top.replace("px", "");
+    const distance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    distanceOutput.textContent = distance.toFixed(2);
+
+    const rotation = Math.atan2(yDiff, xDiff);
+    const rotationDeg = rotation * (180 / Math.PI);
+    rotationOutput.textContent = rotationDeg.toFixed(2);
+
+    updateSupabase(distance.toFixed(2), rotationDeg.toFixed(2));
+  } else {
+    if (line) {
+      lineSvg.removeChild(line);
+      line = null;
+    }
+  }
+}
+
+drawingArea.addEventListener(
+  "touchstart",
+  function (e) {
+    e.preventDefault();
+    for (const touch of e.changedTouches) {
+      if (Object.keys(activeTouches).length < 2) {
+        const touchPointDiv = document.createElement("div");
+        touchPointDiv.className = "touchPoint";
+        touchPointDiv.style.left = `${touch.pageX}px`;
+        touchPointDiv.style.top = `${touch.pageY}px`;
+        drawingArea.appendChild(touchPointDiv);
+        activeTouches[touch.identifier] = touchPointDiv;
+      }
+    }
+    updateLine();
+  },
+  { passive: false }
+);
+
+drawingArea.addEventListener(
+  "touchmove",
+  function (e) {
+    e.preventDefault();
+    for (const touch of e.changedTouches) {
+      const touchPointDiv = activeTouches[touch.identifier];
+      if (touchPointDiv) {
+        touchPointDiv.style.left = `${touch.pageX}px`;
+        touchPointDiv.style.top = `${touch.pageY}px`;
+      }
+    }
+    updateLine();
+  },
+  { passive: false }
+);
+
+drawingArea.addEventListener(
+  "touchend",
+  function (e) {
+    e.preventDefault();
+    for (const touch of e.changedTouches) {
+      const touchPointDiv = activeTouches[touch.identifier];
+      if (touchPointDiv) {
+        touchPointDiv.remove();
+        delete activeTouches[touch.identifier];
+      }
+    }
+    updateLine();
+  },
+  { passive: false }
+);
+
+drawingArea.addEventListener(
+  "touchcancel",
+  function (e) {
+    e.preventDefault();
+    for (const touch of e.changedTouches) {
+      const touchPointDiv = activeTouches[touch.identifier];
+      if (touchPointDiv) {
+        touchPointDiv.remove();
+        delete activeTouches[touch.identifier];
+      }
+    }
+    updateLine();
+  },
+  { passive: false }
+);
+
+async function updateSupabase(distance, rotation) {
+  let res = await database
+    .from(tableName)
+    .update({
+      values: {
+        distance: distance,
+        rotation: rotation,
+      },
+      updated_at: new Date(),
+    })
+    .eq("id", id);
 }
