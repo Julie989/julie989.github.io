@@ -12,3 +12,8 @@
   font-size: 20px;
   font-family: Arial, sans-serif;
 }
+
+button{
+  padding : 5px;
+  margin: 7px;
+}
