@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const compassImage = document.getElementById('compassImage');
   const compassData = document.getElementById('compassData');
-  //let values = alpha; 
 
   // Function to determine cardinal direction
   function getCardinalDirection(angle) {
