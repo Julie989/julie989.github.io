@@ -4,13 +4,6 @@ const url = "https://bynxrcltjanjczfelhpp.supabase.co";
 const database = supabase.createClient(url, key);
 const tableName = "realtimedatabase1";
 
-
-//document.addEventListener("mousemove", async (e) => {
-//  let values = { x: e.clientX, y: e.clientY };
-//  updateSupabase(1, values);
-//});
-
-
 let currentSpeedOutput = document.getElementById("current-speed-value"); 
 let currentSpeedValue = 0; 
 
@@ -28,11 +21,9 @@ function handleClick() {
   currentSpeedOutput.innerHTML = currentSpeedValue;
   this.disabled = true;
 
-  let values = { x: currentSpeedValue, y: 0 };
-  updateSupabase(1, values);
+  //let values = { x: currentSpeedValue, y: 0 };
+  //updateSupabase(1, values);
 }
-
-
 
 
 async function updateSupabase(id, values) {

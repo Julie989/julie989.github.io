@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const compassImage = document.getElementById('compassImage');
   const compassData = document.getElementById('compassData');
 
   // Function to determine cardinal direction
@@ -19,12 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
           let alpha = event.alpha;
           alpha += magneticDeclination; // Adjust compass reading by adding the magnetic declination
 
-          // Rotate the compass needle
-          compassImage.style.transform = `rotate(${-alpha}deg)`;
+        
 
           // Get the cardinal direction
           const cardinalDirection = getCardinalDirection(alpha);
           compassData.innerHTML = `Magnetic Heading: ${alpha.toFixed(2)}° ${cardinalDirection}`;
+          let values = { x: currentSpeedValue, y: magneticDeclination };
+            updateSupabase(1, values);
           
       }
   }
