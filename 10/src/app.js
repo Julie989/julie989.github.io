@@ -30,7 +30,7 @@ document.querySelectorAll("button").forEach(button => {
     this.disabled = true;
 
     let values = { x: currentSpeedValue, y: 0 };
-    updateSupabase(1, values);
+    //updateSupabase(1, values);
   });
 });
 
