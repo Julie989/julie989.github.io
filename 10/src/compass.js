@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const compassImage = document.getElementById('compassImage');
   const compassData = document.getElementById('compassData');
+  let values = {magneticHeading: alpha}; 
 
   // Function to determine cardinal direction
   function getCardinalDirection(angle) {
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // Get the cardinal direction
           const cardinalDirection = getCardinalDirection(alpha);
           compassData.innerHTML = `Magnetic Heading: ${alpha.toFixed(2)}° ${cardinalDirection}`;
+          updateSupabase(1, values);
       }
   }
 

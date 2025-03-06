@@ -11,8 +11,6 @@ const tableName = "magneticHeading-database";
 //  updateSupabase(1, values);
 //});
 
-
-
 async function updateSupabase(id, values) {
   let res = await database
     .from(tableName)
@@ -42,7 +40,6 @@ async function checkRowExists(id) {
 
 setTimeout(async () => {
   let id = 10;
-  let values = { x: 0, y: 0 };
   let isExists = await checkRowExists(id);
   if (!isExists) {
     insertSupabase(id, values);
