@@ -15,24 +15,23 @@ let currentSpeedOutput = document.getElementById("current-speed-value");
 let currentSpeedValue = 0; 
 
 document.querySelectorAll("button").forEach(button => {
-  button.addEventListener("click", function() {
-    let selectedSpeed = this.value; 
-
-    if (currentSpeedValue == selectedSpeed) {
-      console.log(`Speed ${selectedSpeed} is already set. Button remains disabled.`);
-      return; // Exit early if the speed is already set
-    }
-    document.querySelectorAll("button").forEach(btn => btn.disabled = false);
-    currentSpeedValue = selectedSpeed;
-    currentSpeedOutput.innerHTML = currentSpeedValue;
-    console.log("Speed set to:", currentSpeedValue);
-    // Disable the clicked button
-    this.disabled = true;
-
-    let values = { x: currentSpeedValue, y: 0 };
-    //updateSupabase(1, values);
-  });
+  button.addEventListener("click", handleClick);
+  button.addEventListener("touchstart", handleClick); // Mobile support
 });
+
+function handleClick() {
+  let selectedSpeed = this.innerText.trim();
+  if (currentSpeedValue == selectedSpeed) return;
+
+  document.querySelectorAll("button").forEach(btn => btn.disabled = false);
+  currentSpeedValue = selectedSpeed;
+  currentSpeedOutput.innerHTML = currentSpeedValue;
+  this.disabled = true;
+
+  let values = { x: currentSpeedValue, y: 0 };
+  updateSupabase(1, values);
+}
+
 
 
 
