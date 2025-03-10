@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const cardinalDirection = getCardinalDirection(alpha);
           compassData.innerHTML = `Magnetic Heading: ${alpha.toFixed(2)}° ${cardinalDirection}`;
           let values = { x: currentSpeedValue, y: alpha };
-          updateSupabase(1, values);     
+          updateSupabase(id, values);     
       }
   }
 

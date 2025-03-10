@@ -18,14 +18,12 @@ document.querySelectorAll("button").forEach(button => {
 function handleClick() {
   let selectedSpeed = this.innerText.trim();
   if (currentSpeedValue == selectedSpeed) return;
-
   document.querySelectorAll("button").forEach(btn => btn.disabled = false);
   currentSpeedValue = selectedSpeed;
   currentSpeedOutput.innerHTML = currentSpeedValue;
   this.disabled = true;
-  
   let values = { x: currentSpeedValue, y: 0 };
-  updateSupabase(1, values);
+  updateSupabase(id, values);
 }
 
 
@@ -37,6 +35,21 @@ function handleClick() {
 //  }
 //});
 
+// Get all radio buttons with the name "fan_number"
+const fanNumber = document.querySelectorAll('input[name="fan_number"]');
+let selectedFanValue = 1; 
+// Add event listener to each radio button
+fanNumber.forEach(radioButton => {
+  radioButton.addEventListener('change', function() {
+    // 'this' refers to the clicked radio button
+    selectedFanValue = this.value;
+    // You can now use the selectedFanValue (1 or 2)
+    console.log("Selected fan number:", selectedFanValue);
+    document.getElementById("your-id").innerText = selectedFanValue;
+    
+  });
+});
+
 //check if page is loaded
 document.addEventListener("DOMContentLoaded", async () => {
   //get next id
@@ -47,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!isExists) {
       //insert row
       insertSupabase(id, { x: 0, y: 0 });
-      document.getElementById("your-id").innerText = id;
+      console.log(id); 
     }
   }
 });
