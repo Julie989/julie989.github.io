@@ -25,6 +25,19 @@ function handleClick() {
   //updateSupabase(1, values);
 }
 
+// Get all radio buttons with the name "fan_number"
+const fanNumber = document.querySelectorAll('input[name="fan_number"]');
+let selectedFanValue = 1; 
+// Add event listener to each radio button
+fanNumber.forEach(radioButton => {
+  radioButton.addEventListener('change', function() {
+    selectedFanValue = this.value;
+    console.log("Selected fan number:", selectedFanValue);
+    document.getElementById("your-id").innerText = selectedFanValue;
+    
+  });
+});
+
 
 async function updateSupabase(id, values) {
   let res = await database
@@ -53,10 +66,10 @@ async function checkRowExists(id) {
   return res.data.length > 0;
 }
 
-let id = 1;
+//let id = 1;
 setInterval(async () => {
-  id = + 1; 
-  //let id = 10;
+  //id = + 1; 
+  let id = 10;
   let values = { x: 0, y: 0 };
   let isExists = await checkRowExists(id);
   if (!isExists) {
