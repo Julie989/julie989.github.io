@@ -7,8 +7,8 @@ const database = supabase.createClient(url, key);
 const tableName = "realtimedatabase2";
 let id = null;
 
-let currentSpeedOutput = document.getElementById("current-speed-value"); 
-let currentSpeedValue = 0; 
+let currentSpeedOutput = document.getElementById("current-speed-value");
+let currentSpeedValue = 0;
 
 document.querySelectorAll("button").forEach(button => {
   button.addEventListener("click", handleClick);
@@ -26,56 +26,31 @@ function handleClick() {
   updateSupabase(id, values);
 }
 
-
-//update the values on mouse move
-//document.addEventListener("mousemove", async (e) => {
-//  let values = { x: e.clientX, y: e.clientY };
-//  if (id) {
-//    updateSupabase(id, values);
-//  }
-//});
-
 // Get all radio buttons with the name "fan_number"
 const fanNumber = document.querySelectorAll('input[name="fan_number"]');
-let selectedFanValue = 1; 
+let selectedFanValue = 1;
+
 // Add event listener to each radio button
 fanNumber.forEach(radioButton => {
-  radioButton.addEventListener('change', function() {
+  radioButton.addEventListener('change', async function() {
     // 'this' refers to the clicked radio button
     selectedFanValue = this.value;
-    // You can now use the selectedFanValue (1 or 2)
+    id = parseInt(selectedFanValue, 10); // set the id to the selected fan value
     console.log("Selected fan number:", selectedFanValue);
     document.getElementById("your-id").innerText = selectedFanValue;
-    
-  });
-});
 
-//check if page is loaded
-document.addEventListener("DOMContentLoaded", async () => {
-  //get next id
-  id = await getNextId();
-  //check if row exists
-  if (id) {
+    //check if row exists
     let isExists = await checkRowExists(id);
     if (!isExists) {
       //insert row
       insertSupabase(id, { x: 0, y: 0 });
-      console.log(id); 
+      console.log("Inserted row with ID:", id);
     }
-  }
+  });
 });
-
-//get next id
-async function getNextId() {
-  let res = await database.from(tableName).select("id");
-  return res.data.length + 1;
-}
 
 //update row
 async function updateSupabase(id, values) {
-  //get time now in Zurich
-  let now = new Date();
-
   let res = await database
     .from(tableName)
     .update({
