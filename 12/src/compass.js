@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const compassData = document.getElementById('compassData');
+  const requestPermissionBtn = document.getElementById('requestPermission');
 
   // Function to determine cardinal direction
   function getCardinalDirection(angle) {
@@ -13,37 +14,34 @@ document.addEventListener('DOMContentLoaded', function() {
   // Adjust the alpha angle for magnetic declination
   const magneticDeclination = 0; // Set your location's magnetic declination in degrees here
 
-  function updateCompass(event) {
-      if (event.alpha !== null) {
-          let alpha = event.alpha;
-          alpha += magneticDeclination; // Adjust compass reading by adding the magnetic declination
+  function enableCompass() {
+    if ('DeviceOrientationEvent' in window && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // Request permission for iOS devices
+        DeviceOrientationEvent.requestPermission()
+            .then(permissionState => {
+                if (permissionState === 'granted') {
+                    window.addEventListener('deviceorientation', updateCompass);
+                    requestPermissionBtn.style.display = 'none'; // Hide button after granting permission
+                } else {
+                    compassData.innerHTML = "Permission to access sensor was denied.";
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                compassData.innerHTML = "Error requesting permission.";
+            });
+    } else {
+        // Directly add event listener for non-iOS devices
+        window.addEventListener('deviceorientation', updateCompass);
+        requestPermissionBtn.style.display = 'none'; // Hide button if not needed
+    }
+}
 
-          // Get the cardinal direction
-          const cardinalDirection = getCardinalDirection(alpha);
-          compassData.innerHTML = `Magnetic Heading: ${alpha.toFixed(2)}° ${cardinalDirection}`;
-          let values = { x: currentSpeedValue, y: alpha };
-          updateSupabase(selectedFanValue, values);     
-      }
-  }
-
-  // Check if DeviceOrientationEvent is supported
-  if ('DeviceOrientationEvent' in window) {
-      // Request permission for iOS devices
-      if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') {
-          DeviceMotionEvent.requestPermission()
-              .then(permissionState => {
-                  if (permissionState === 'granted') {
-                      window.addEventListener('deviceorientation', updateCompass);
-                  } else {
-                      compassData.innerHTML = "Permission to access sensor was denied.";
-                  }
-              })
-              .catch(console.error);
-      } else {
-          window.addEventListener('deviceorientation', updateCompass);
-      }
-  } else {
-      compassData.innerHTML = "Your device does not support device orientation.";
-  }
+// Check if permission request is needed
+if ('DeviceOrientationEvent' in window && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    requestPermissionBtn.style.display = 'block';
+    requestPermissionBtn.addEventListener('click', enableCompass);
+} else {
+    enableCompass(); // Enable immediately if permission is not required
+}
 });
-
