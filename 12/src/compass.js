@@ -14,6 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
   // Adjust the alpha angle for magnetic declination
   const magneticDeclination = 0; // Set your location's magnetic declination in degrees here
 
+  function updateCompass(event) {
+    if (event.alpha !== null) {
+        let alpha = event.alpha;
+        alpha += magneticDeclination; // Adjust compass reading by adding the magnetic declination
+
+        // Rotate the compass needle
+        compassImage.style.transform = `rotate(${-alpha}deg)`;
+
+        // Get the cardinal direction
+        const cardinalDirection = getCardinalDirection(alpha);
+        compassData.innerHTML = `Magnetic Heading: ${alpha.toFixed(2)}° ${cardinalDirection}`;
+        updateSupabase(selectedFanValue, values);     
+    }
+    
+}
+
   function enableCompass() {
     if ('DeviceOrientationEvent' in window && typeof DeviceOrientationEvent.requestPermission === 'function') {
         // Request permission for iOS devices
