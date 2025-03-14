@@ -1,10 +1,10 @@
 body{
-  color: yellow;
+  color: palevioletred;
   background-color: gray;
 }
 
 button{
   padding : 5px;
   margin: 7px;
-  background-color: yellow;
+  background-color: palevioletred;
 }
