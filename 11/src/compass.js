@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (event.alpha !== null) {
           let alpha = event.alpha;
           alpha += magneticDeclination; // Adjust compass reading by adding the magnetic declination
-
           // Get the cardinal direction
           const cardinalDirection = getCardinalDirection(alpha);
           compassData.innerHTML = `Magnetic Heading: ${alpha.toFixed(2)}° ${cardinalDirection}`;
