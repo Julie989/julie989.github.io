@@ -1,10 +1,10 @@
 body{
-  color: blue;
+  color: white;
   background-color: black;
 }
 
 button{
   padding : 5px;
   margin: 7px;
-  background-color: blue ;
+  background-color: white ;
 }
