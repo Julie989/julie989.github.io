@@ -10,10 +10,10 @@ let id = null;
 let currentSpeedOutput = document.getElementById("current-speed-value");
 let currentSpeedValue = 0;
 
-document.querySelectorAll("button").forEach(button => {
-  button.addEventListener("click", handleClick);
-  button.addEventListener("touchstart", handleClick); // Mobile support
-});
+//document.querySelectorAll("button").forEach(button => {
+//  button.addEventListener("click", handleClick);
+//  button.addEventListener("touchstart", handleClick); // Mobile support
+//});
 
 //function handleClick() {
 //  let selectedSpeed = this.innerText.trim();
