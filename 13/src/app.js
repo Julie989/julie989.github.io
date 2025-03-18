@@ -15,16 +15,16 @@ document.querySelectorAll("button").forEach(button => {
   button.addEventListener("touchstart", handleClick); // Mobile support
 });
 
-function handleClick() {
-  let selectedSpeed = this.innerText.trim();
-  if (currentSpeedValue == selectedSpeed) return;
-  document.querySelectorAll("button").forEach(btn => btn.disabled = false);
-  currentSpeedValue = selectedSpeed;
-  currentSpeedOutput.innerHTML = currentSpeedValue;
-  this.disabled = true;
-  let values = { x: currentSpeedValue, y: 0 };
-  updateSupabase(id, values);
-}
+//function handleClick() {
+//  let selectedSpeed = this.innerText.trim();
+//  if (currentSpeedValue == selectedSpeed) return;
+//  document.querySelectorAll("button").forEach(btn => btn.disabled = false);
+//  currentSpeedValue = selectedSpeed;
+//  currentSpeedOutput.innerHTML = currentSpeedValue;
+//  this.disabled = true;
+//  let values = { x: currentSpeedValue, y: 0 };
+//  updateSupabase(id, values);
+//}
 
 // Get all radio buttons with the name "fan_number"
 const fanNumber = document.querySelectorAll('input[name="fan_number"]');
@@ -43,7 +43,7 @@ fanNumber.forEach(radioButton => {
     let isExists = await checkRowExists(id);
     if (!isExists) {
       //insert row
-      insertSupabase(id, { x: 0, y: 0 });
+      insertSupabase(id, { x: 0, y: 5 });
       console.log("Inserted row with ID:", id);
     }
   });

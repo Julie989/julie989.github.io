@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get the cardinal direction
             const cardinalDirection = getCardinalDirection(alpha);
             compassData.innerHTML = `Magnetic Heading: ${alpha.toFixed(2)}° ${cardinalDirection}`;
-            let values = { x: currentSpeedValue, y: alpha };
+            let values = {y: alpha };
             updateSupabase(selectedFanValue, values);     
         }
     }
