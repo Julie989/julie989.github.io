@@ -4,7 +4,7 @@ const key =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5bnhyY2x0amFuamN6ZmVsaHBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjc0NjAsImV4cCI6MjA1Njg0MzQ2MH0.VqTvM07Ir1v71X2Pxi37KyNXk7wIB4IKyqZUVbD1PDA";
 const url = "https://bynxrcltjanjczfelhpp.supabase.co";
 const database = supabase.createClient(url, key);
-const tableName = "realtimedatabase2";
+const tableName = "realtimedatabase3";
 let id = null;
 
 let currentSpeedOutput = document.getElementById("current-speed-value");
