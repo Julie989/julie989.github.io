@@ -1,0 +1,193 @@
+/*okay for now i have like tow color, but could be usefull */
+:root {
+  --white: #ffffff;
+  --black: black;  /*#1f1e20*/
+  --purple : blueviolet; 
+  --purplelight: rgb(179, 139, 218); 
+}
+
+/*ptn c'est quoi ce problem de merde*/
+@font-face {
+  font-family: 'CelonaCameli';
+  src: url('/font/CelonaCameli.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica-compress';
+  src: url('/font/Helvetica-compress.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+*{
+  padding: 0px; 
+  margin: 0;
+}
+
+h1, .logo, nav a, h3, #section-title{
+  font-family: 'Antonio'; 
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background:var(--black);
+  color: var(--white);
+  font-family: "Questrial", sans-serif;
+  font-weight: 1rem;
+  cursor: crosshair; 
+}
+
+body::selection {
+  background-color: blueviolet;
+  color: white; /* For better contrast */
+}
+
+nav {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid white;
+  /*mix-blend-mode: difference;*/
+  background: var(--black);
+  z-index: 99;
+}
+
+nav a {
+  font-size: 1.7rem;
+  margin: 30px ;
+}
+
+nav a:hover{
+  color: var(--purplelight);
+}
+
+nav a.active{
+  color: var(--purple);
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  margin: 0 20px;
+}
+
+h2{
+  padding: 0px; 
+}
+
+
+.logo {
+  position: absolute;
+  right: 15px;
+ /*  transform: translate(0, -50%) rotate(90deg); */
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+.page {
+  width: 100%;
+  height: 100vw;
+  display: flex;
+  align-items: center;
+  border-bottom: 0.7px solid white;
+  overflow: hidden;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+#home {
+  height: 60%;
+  min-height: 1200px;
+  font-size: 2rem; 
+  text-align: justify;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+#tag-container{
+  display: flex;
+  gap: 30px;
+}
+
+#tag-container .tag{
+  flex: 1; /*item grow to fill any available space in the flex container */
+  text-align: center; /* center the text within the tag */
+}
+
+
+#section-title{
+  padding: 0px 15px 30px 15px;
+}
+
+#project-preview-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 2fr); /* Create two equal columns */
+  column-gap :80px; 
+  row-gap :50px; 
+}
+
+.card {
+  width: 800px;
+  display: flex; /* Arrange image and text side by side */
+  padding-bottom: 30px;
+  border-bottom: 1px solid #ddd; 
+  font-size: 1.3em;
+}
+
+
+
+.tag{
+  text-transform: uppercase ;
+  margin: 7px 0px 7px 0px;
+  /*display: inline-block;  This is the key! 
+  border: 1px solid #ddd; 
+  background-color: var(--black);
+  border-radius: 40px; 
+  text-align: left;
+  padding: 12px;
+  margin: 15px 0px 20px 0px;*/
+}
+
+.card img {
+  width: 190px; 
+  height: 190px; 
+  object-fit: cover; /* Ensure images fill the square */
+  aspect-ratio: 1/1;
+  filter: grayscale(100%);
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.card img:hover{
+  transform: scale(1.2); /* Increase size on hover */
+  filter: none;
+}
+
+.card-content {
+  padding: 0px 30px 0px 30px; 
+}
+
+.card-content h3 {
+  margin-top: 0; 
+  font-size: 1.5em; 
+  padding-bottom: 5px;
+}
+
+
+#about img{
+    width: 190px; 
+  height: 190px; 
+
+}
