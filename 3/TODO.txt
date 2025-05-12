@@ -1,2 +1,0 @@
-04.05.25
-i need to fix the scroll back to home, the div go behind the navbar
