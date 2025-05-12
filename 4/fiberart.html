@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="Author" content="Julie Agustoni" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The fiberpiece gallery</title>
+    <script src="assets/script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Anton+SC&family=Antonio:wght@100..700&family=Questrial&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+<script src="assets/script.js" defer></script>
+<style>
+    body{
+      background-color: black;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      min-height: 100vh;
+  }
+  .image{
+      width: 40vmin;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+  }
+  
+  .image[data-status="inactive"]{
+      display: none;
+  }
+  .image[data-status="active"]{
+      display: block;
+  }
+
+  #image-gallery {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Make the gallery container click-through */
+  display: flex; /* Enable Flexbox for the container */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+}
+
+  #image-gallery p{
+  text-align: center;
+  z-index: 99;
+  position: relative; /* Needed for z-index to work */
+  }
+
+</style>
+  
+  </head>
+  <body>
+        <div class="center">
+            <div class="content">
+                <nav>
+                <div class="logo">JA</div>
+                <a href="index.html">back to work :/</a>
+    </nav>
+      </div>
+      </div>
+      
+      <div id="image-gallery">
+        <p >I pick up a crochet in 2020 and then a needle and never stop, now i make my own pieces of clothes from thread</p>
+    <img src="assets/img/fiberart/Knit-1.png" alt="Knit piece" data-index="0" data-status="active" class="image"/>
+    <img src="assets/img/fiberart/Knit-2.png" alt="Knit piece" data-index="1" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-3.png" alt="Knit piece" data-index="2" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-4.png" alt="Knit piece" data-index="3" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-5.png" alt="Knit piece" data-index="4" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-6.png" alt="Knit piece" data-index="5" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-7.png" alt="Knit piece" data-index="6" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-8.png" alt="Knit piece" data-index="7" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-9.png" alt="Knit piece" data-index="8" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-10.png" alt="Knit piece" data-index="9" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-11.png" alt="Knit piece" data-index="10" data-status="inactive" class="image"/>
+    <img src="assets/img/fiberart/Knit-12.png" alt="Knit piece" data-index="11" data-status="inactive" class="image"/>
+</div>
+  <script>
+    const displayDistance = 150 // distance in px to display another photo
+const nDisplay = 7 // number of pictures to display at once
+const traceLength = 5 // Number of past images to keep visible
+
+const images = document.getElementsByClassName("image")
+const navbar = document.querySelector("nav");
+const activeImages = [] // Array to keep track of the currently active images
+
+let globalIndex = 0 // used to count up the images
+let lastMousePosition = { x: 0, y: 0 } // used to get the last mouse position
+
+// function to activate photos
+function activatePic(img, x, y) {
+    img.dataset.status = "active"
+    img.style.left = `${x}px`
+    img.style.top = `${y}px`
+    img.style.zIndex = globalIndex // otherwise the last pic will always be at the top
+    lastMousePosition = { x: x, y: y } // update the last mouse position
+    activeImages.push(img) // Add the newly activated image to the array
+
+    // Keep only the last 'traceLength' active images
+    if (activeImages.length > traceLength) {
+        const imageToRemove = activeImages.shift()
+        imageToRemove.dataset.status = "inactive"
+    }
+}
+// compute mouse distance
+function mouseDistance(x, y) {
+    return Math.hypot(x - lastMousePosition.x, y - lastMousePosition.y)
+}
+// onmousemove
+window.onmousemove = e => {
+    if (mouseDistance(e.clientX, e.clientY) > displayDistance) {
+        let activePic = images[globalIndex % images.length]
+        activatePic(activePic, e.clientX, e.clientY)
+        globalIndex++
+    }
+}
+  </script>
+  </body>
+</html>
