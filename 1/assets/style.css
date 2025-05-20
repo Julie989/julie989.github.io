@@ -78,7 +78,7 @@ nav {
   left: 0;
   border-bottom: 1px solid white;
   /*mix-blend-mode: difference;*/
-  background: var(--purple);
+  background: var(--black);
   z-index: 99;
 }
 
